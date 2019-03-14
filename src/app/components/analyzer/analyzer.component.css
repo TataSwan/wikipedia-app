@@ -1,0 +1,30 @@
+.search {
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.search-btn {
+  padding: 7px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #fff;
+  background: #27958a;
+}
+
+.type {
+  color: #27958a;
+}
+
+.name {
+  color: darkblue;
+}
+
+.status.ok {
+  color: darkgreen;
+}
+
+.status {
+  color: darkred;
+}

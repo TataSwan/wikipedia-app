@@ -1,0 +1,11 @@
+<form  (ngSubmit)="onSubmit()">
+  <input type="text" [(ngModel)]="link" name="link" placeholder="Past wiki link here" class="search" (click)="clearInput()">
+  <button class="search-btn">Search valid relatives</button>
+</form>
+<ul>
+  <li  *ngFor="let relative of relatives">
+    <span class="type">{{relative.type}}</span>: <span class="name">{{relative.name}}</span> -
+    <span class="status" [class.ok]="relative.title">{{relative.title ? 'OK' : 'Not OK'}}</span>
+  </li>
+</ul>
+

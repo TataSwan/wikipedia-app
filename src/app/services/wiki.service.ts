@@ -21,16 +21,25 @@ export class WikiService {
     const  li = parent.querySelectorAll('li');
     const  div = parent.querySelectorAll('div');
     const  a = parent.querySelectorAll('a');
-    const  people = li.length ? li : div.length ? div : a;
+    let  td = parent.querySelector('td').innerHTML;
+
+    if (td.search('<br>') >= 0) {
+      td = td.split('<br>');
+    } else if (td.search('<br/>') >= 0) {
+      td = td.split('<br/>');
+    }
+
+    const  people = li.length ? li : div.length ? div : a.length ? a : td;
 
     [].forEach.call(people, (person) => {
-      if (person.querySelector('div')) {
+      if (person.innerText && person.querySelector('div')) {
         person = person.querySelector('div');
       }
+
       relatives.push({
         type: relativeType,
-        name: person.innerText,
-        title: this.getTitle(person)
+        name: person.innerText ? person.innerText : person,
+        title: person.innerText ? this.getTitle(person) : ''
       });
     });
 
@@ -45,6 +54,11 @@ export class WikiService {
     let relatives = [];
 
     const infobox = el.querySelectorAll('.infobox tr th');
+
+    if (!infobox.length) {
+      return;
+    }
+
     [].forEach.call(infobox, (th) => {
 
       if (th.innerHTML.search('Spouse') >= 0) {

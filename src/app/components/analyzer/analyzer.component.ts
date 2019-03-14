@@ -12,6 +12,7 @@ export class AnalyzerComponent implements OnInit {
   public link = '';
   public relatives;
   public mainTitle = '';
+  public message = '';
 
   constructor(public wiki: WikiService) { }
 
@@ -24,13 +25,20 @@ export class AnalyzerComponent implements OnInit {
       if (relative.title.length) {
         relative.title = people[i] ? relative.title : '';
         i++;
-      }});
+      }
+      relative.status = true;
+    });
   }
 
   onSubmit() {
     const title = this.link.split('/').pop();
     this.mainTitle = title;
     this.wiki.getWikiPage(title).subscribe((data) => {
+        if (!data) {
+          this.message = 'No relatives in info box';
+          return;
+        }
+
         this.relatives = data;
         const obsvArray = [];
 
@@ -40,16 +48,21 @@ export class AnalyzerComponent implements OnInit {
           }
         });
 
+        if (!obsvArray.length) {
+          this.mapRelatives(this.relatives);
+        }
+
         forkJoin(...obsvArray)
           .subscribe(
           results => {
-            results = results.map(result => result.filter(person => person.title === title).length);
+            results = results.map(result => result ? result.filter(person => person.title === title).length : 0);
             this.mapRelatives(results);
           }
         );
       },
       error => {
         this.link = '';
+        this.message = 'Wrong url';
       });
   }
 
@@ -57,6 +70,7 @@ export class AnalyzerComponent implements OnInit {
     this.link = '';
     this.mainTitle = '';
     this.relatives = [];
+    this.message = '';
   }
 
 }

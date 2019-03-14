@@ -28,3 +28,13 @@
 .status {
   color: darkred;
 }
+
+.waiting {
+  color: darkorange;
+}
+
+.message {
+  margin-top: 30px;
+  font-weight: bold;
+  color: blueviolet;
+}

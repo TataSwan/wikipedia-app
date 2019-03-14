@@ -5,7 +5,9 @@
 <ul>
   <li  *ngFor="let relative of relatives">
     <span class="type">{{relative.type}}</span>: <span class="name">{{relative.name}}</span> -
-    <span class="status" [class.ok]="relative.title">{{relative.title ? 'OK' : 'Not OK'}}</span>
+    <span *ngIf="relative.status" class="status" [class.ok]="relative.title">{{relative.title ? 'OK' : 'Not OK'}}</span>
+    <span *ngIf="!relative.status" class="waiting">Processing</span>
   </li>
 </ul>
+<div class="message">{{message}}</div>
 
